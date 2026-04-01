@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Track Issues{% endblock %}
+
+{% block content %}
+    <h1>Track Issues</h1>
+
+    <table border="1" cellpadding="8" style="width:100%;border-collapse:collapse;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Issue</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Submitted</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for issue in issues %}
+                <tr>
+                    <td>{{ issue.id }}</td>
+                    <td>
+                        <strong>{{ issue.title }}</strong><br>
+                        <small>{{ issue.location }}</small>
+                    </td>
+                    <td style="text-align:center;font-size:1.2rem;">
+                        {% if issue.issue_type == 'water' %}💧{% elif issue.issue_type == 'electricity' %}⚡{% elif issue.issue_type == 'road' %}🛣️{% elif issue.issue_type == 'waste' %}🗑️{% else %}❓{% endif %}
+                        {{ issue.get_issue_type_display }}
+                    </td>
+                    <td>{{ issue.get_status_display }}</td>
+                    <td>{{ issue.created_at }}</td>
+                    <td>
+                        {% if issue.image %}
+                            <img src="{{ issue.image.url }}" alt="image" style="max-width:100px;max-height:80px;border:1px solid #ccc;" />
+                        {% else %}
+                            <img src="https://via.placeholder.com/80?text=No+Image" alt="No image" />
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No issues reported yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Community Service System{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #222;
+            background-image: url("https://images.unsplash.com/photo-1508830524289-0adcbe822b40?auto=format&fit=crop&w=1350&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: -1;
+        }
+
+        header {
+            border-bottom: 1px solid #ddd;
+            padding: 16px 24px;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.85);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 12px 24px 24px;
+            min-height: calc(100vh - 120px);
+        }
+
+        .report-card {
+            border: 1px solid #ccc;
+            padding: 24px;
+            max-width: 720px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .form-row {
+            margin-bottom: 12px;
+        }
+
+        .form-row input,
+        .form-row textarea,
+        .form-row select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .message-list {
+            margin: auto;
+            max-width: 720px;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #bbb;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        table.issue-table,
+        table.issue-table th,
+        table.issue-table td {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+
+        table.issue-table th,
+        table.issue-table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        table.issue-table thead {
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display:flex;align-items:center;gap:12px;">
+            <img src="https://via.placeholder.com/100x40.png?text=Logo" alt="Logo" style="display:block;" />
+            <h1 style="margin:0;font-size:1.4rem;">Community Service System</h1>
+        </div>
+        <nav>
+            <a href="{% url 'reports:report_issue' %}"><img src="https://via.placeholder.com/18/007bff/ffffff?text=R" alt="Report" /> Report</a>
+            <a href="{% url 'reports:track_issue' %}"><img src="https://via.placeholder.com/18/28a745/ffffff?text=T" alt="Track" /> Track</a>
+            {% if user.is_authenticated %}
+                <span style="margin-left:12px;">Hello, {{ user.username }}!</span>
+                <a href="{% url 'users:logout' %}" style="margin-left:8px;">Logout</a>
+            {% else %}
+                <a href="{% url 'users:login' %}"><img src="https://via.placeholder.com/18/6c757d/ffffff?text=L" alt="Login" /> Login</a>
+                <a href="{% url 'users:register' %}"><img src="https://via.placeholder.com/18/f39c12/ffffff?text=R" alt="Register" /> Register</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>
